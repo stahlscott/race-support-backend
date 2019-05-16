@@ -21,6 +21,7 @@ def get_rider(id):
 @rider_blueprint.route("/riders", methods=["GET"])
 def get_all_riders():
     riders = Rider.query.all()
+    # TODO need to populate with race name
     return jsonify([rider.as_dict() for rider in riders])
 
 
@@ -34,8 +35,8 @@ def create_rider():
                 email=req.get("email"),
                 usac=req.get("usac"),
                 bib=req.get("bib"),
-                checked_in=req.get("checked_in", False),
-                race_id=req.get("race_id"),
+                checked_in=req.get("checkedIn", False),
+                race_id=req.get("raceId"),
             )
             db.session.add(rider)
             db.session.commit()
@@ -54,8 +55,8 @@ def update_rider(id):
             rider.email = req.get("email", rider.email)
             rider.usac = req.get("usac", rider.usac)
             rider.bib = req.get("bib", rider.bib)
-            rider.checked_in = req.get("checked_in", rider.checked_in)
-            rider.race_id = req.get("race_id", rider.race_id)
+            rider.checked_in = req.get("checkedIn", rider.checked_in)
+            rider.race_id = req.get("raceId", rider.race_id)
             db.session.commit()
         return jsonify(rider.as_dict())
     else:

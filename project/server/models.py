@@ -60,6 +60,7 @@ class Rider(db.Model):
         self.email = email
         self.usac = usac
         self.bib = bib
+        self.checked_in = checked_in
         self.created_on = datetime.datetime.now()
         self.race_id = race_id
 
@@ -73,8 +74,8 @@ class Rider(db.Model):
             "email": self.email,
             "usac": self.usac,
             "bib": self.bib,
-            "checked_in": self.checked_in,
-            "race_id": self.race_id,
+            "checkedIn": self.checked_in,
+            "raceId": self.race_id,
         }
 
     def __repr__(self):
@@ -104,8 +105,8 @@ class Race(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "bikereg_id": self.bikereg_id,
-            "event_id": self.event_id,
+            "bikeregId": self.bikereg_id,
+            "eventId": self.event_id,
         }
 
     def __repr__(self):
@@ -138,7 +139,7 @@ class Event(db.Model):
         return {
             "id": self.id,
             "name": self.name,
-            "bikereg_id": self.bikereg_id,
+            "bikeregId": self.bikereg_id,
             "active": self.active,
         }
 
