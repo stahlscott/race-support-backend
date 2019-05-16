@@ -8,7 +8,7 @@ import coverage
 from flask.cli import FlaskGroup
 
 from project.server import create_app, db
-from project.server.models import User
+from project.server.models import User, Event, Race, Rider
 import subprocess
 import sys
 
@@ -50,8 +50,22 @@ def create_admin():
 
 @cli.command()
 def create_data():
-    """Creates sample data."""
-    pass
+    event = Event(name="Rochester Testocross", bikereg_id="1", active=True)
+    db.session.add(event)
+    db.session.commit()
+    race = Race(name="Cat 1 Mens", bikereg_id="2", event_id=event.id)
+    db.session.add(race)
+    db.session.commit()
+    db.session.add(
+        Rider(
+            name="Tough Guy",
+            email="blah@nope.com",
+            usac="123",
+            bib="11",
+            race_id=race.id,
+        )
+    )
+    db.session.commit()
 
 
 @cli.command()

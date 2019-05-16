@@ -31,9 +31,7 @@ def create_app(script_info=None):
     )
 
     # set config
-    app_settings = os.getenv(
-        "APP_SETTINGS", "project.server.config.ProductionConfig"
-    )
+    app_settings = os.getenv("APP_SETTINGS", "project.server.config.ProductionConfig")
     app.config.from_object(app_settings)
 
     # set up extensions
@@ -45,9 +43,15 @@ def create_app(script_info=None):
     migrate.init_app(app, db)
 
     # register blueprints
+    from project.server.rider.views import rider_blueprint
+    from project.server.race.views import race_blueprint
+    from project.server.event.views import event_blueprint
     from project.server.user.views import user_blueprint
     from project.server.main.views import main_blueprint
 
+    app.register_blueprint(rider_blueprint)
+    app.register_blueprint(race_blueprint)
+    app.register_blueprint(event_blueprint)
     app.register_blueprint(user_blueprint)
     app.register_blueprint(main_blueprint)
 

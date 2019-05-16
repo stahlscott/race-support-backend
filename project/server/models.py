@@ -47,24 +47,35 @@ class Rider(db.Model):
     __tablename__ = "riders"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.Text, unique=True, nullable=False)
-    email = db.Column(db.Text, unique=True, nullable=False)
-    usac = db.Column(db.Text, unique=True, nullable=False)
+    name = db.Column(db.Text, nullable=False)
+    email = db.Column(db.Text, nullable=False)
+    usac = db.Column(db.Text, nullable=False)
     bib = db.Column(db.Text, nullable=False)
-    event = db.Column(db.Text, nullable=False)
-    created_on = db.Column(db.DateTime, nullable=False)
     checked_in = db.Column(db.Boolean, nullable=False, default=False)
+    created_on = db.Column(db.DateTime, nullable=False)
+    race_id = db.Column(db.ForeignKey("races.id"))
 
-    def __init__(self, name, email, usac, bib, event, checked_in=False):
+    def __init__(self, name, email, usac, bib, race_id, checked_in=False):
         self.name = name
         self.email = email
         self.usac = usac
         self.bib = bib
-        self.event = event
         self.created_on = datetime.datetime.now()
+        self.race_id = race_id
 
     def get_id(self):
         return self.id
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "usac": self.usac,
+            "bib": self.bib,
+            "checked_in": self.checked_in,
+            "race_id": self.race_id,
+        }
 
     def __repr__(self):
         return f"<Rider {self.name}>"
@@ -76,19 +87,60 @@ class Race(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text, unique=True, nullable=False)
-    event = db.Column(db.Text, nullable=False)
+    bikereg_id = db.Column(db.Text, unique=True, nullable=False)
     created_on = db.Column(db.DateTime, nullable=False)
+    event_id = db.Column(db.ForeignKey("events.id"))
 
-    def __init__(self, name, email, usac, bib, event, checked_in=False):
+    def __init__(self, name, bikereg_id, event_id):
         self.name = name
-        self.email = email
-        self.usac = usac
-        self.bib = bib
-        self.event = event
+        self.bikereg_id = bikereg_id
         self.created_on = datetime.datetime.now()
+        self.event_id = event_id
 
     def get_id(self):
         return self.id
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "bikereg_id": self.bikereg_id,
+            "event_id": self.event_id,
+        }
+
+    def __repr__(self):
+        return f"<Race {self.name}>"
+
+
+class Event(db.Model):
+
+    __tablename__ = "events"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, unique=True, nullable=False)
+    bikereg_id = db.Column(db.Text, unique=True, nullable=False)
+    active = db.Column(db.Boolean, nullable=False, default=False)
+    created_on = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, name, bikereg_id, active):
+        self.name = name
+        self.bikereg_id = bikereg_id
+        self.active = active
+        self.created_on = datetime.datetime.now()
+
+    def is_active(self):
+        return self.active
+
+    def get_id(self):
+        return self.id
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "bikereg_id": self.bikereg_id,
+            "active": self.active,
+        }
 
     def __repr__(self):
         return f"<Race {self.name}>"
