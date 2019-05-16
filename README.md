@@ -1,20 +1,48 @@
-# race-support-backend
+# Docker Setup
 
-## Quick Start
+Use this guide if you want to use Docker in your project.
 
-Install Cookiecutter globally:
+> Built with Docker v18.03.1-ce.
 
-```sh
-$ pip install cookiecutter
-```
+## Getting Started
 
-Generate the boilerplate:
+Update the environment variables in _docker-compose.yml_, and then build the images and spin up the containers:
 
 ```sh
-$ cookiecutter https://github.com/realpython/cookiecutter-flask-skeleton.git
+$ docker-compose up -d --build
 ```
 
-Review the set up guides to configure the app:
+By default the app is set to use the production configuration. If you would like to use the development configuration, you can alter the `APP_SETTINGS` environment variable:
 
-1. [setup-with-docker.md](setup-with-docker.md)
-1. [setup-without-docker.md](setup-without-docker.md)
+```
+APP_SETTINGS="project.server.config.DevelopmentConfig"
+```
+
+## Create the database:
+
+```sh
+$ docker-compose run web python manage.py create-db
+$ docker-compose run web python manage.py db migrate
+```
+
+Access the application at the address [http://localhost:5002/](http://localhost:5002/)
+
+### Testing
+
+Test without coverage:
+
+```sh
+$ docker-compose run web python manage.py test
+```
+
+Test with coverage:
+
+```sh
+$ docker-compose run web python manage.py cov
+```
+
+Lint:
+
+```sh
+$ docker-compose run web flake8 project
+```

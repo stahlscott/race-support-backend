@@ -1,7 +1,6 @@
 version: '3.5'
 
 services:
-
   web:
     image: web
     build:
@@ -16,19 +15,19 @@ services:
       - FLASK_DEBUG=1
       - PYTHONUNBUFFERED=0
       - APP_SETTINGS=project.server.config.ProductionConfig
-      - DATABASE_URL=postgres://postgres:postgres@web-db:5432/users_dev
-      - DATABASE_TEST_URL=postgres://postgres:postgres@web-db:5432/users_test
+      - DATABASE_URL=postgres://postgres:postgres@race-db:5432/dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@race-db:5432/test
       - SECRET_KEY=change_me_in_prod
     depends_on:
-      - web-db
+      - race-db
 
-  web-db:
-    container_name: web-db
+  race-db:
+    container_name: race-db
     build:
       context: ./project/server/db
       dockerfile: Dockerfile
     ports:
-      - 5435:5432
+      - 5436:5432
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres

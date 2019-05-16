@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 flask = "*"
 flask-bcrypt = "*"
 flask-bootstrap = "*"
@@ -16,15 +13,21 @@ flask-sqlalchemy = "*"
 flask-wtf = "*"
 psycopg2 = "*"
 
-
 [dev-packages]
-
 coverage = "*"
 flask-debugtoolbar = "*"
 flask-testing = "*"
 "flake8" = "*"
-
+black = "*"
+rope = "*"
 
 [requires]
-
 python_version = "3.6"
+
+[pipenv]
+allow_prereleases = true
+
+[scripts]
+tests = "docker-compose run web python manage.py test"
+coverage = "docker-compose run web python manage.py cov"
+lint = "docker-compose run web flake8 project"
