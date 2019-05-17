@@ -23,6 +23,8 @@ APP_SETTINGS="project.server.config.DevelopmentConfig"
 ```sh
 $ docker-compose run web python manage.py create-db
 $ docker-compose run web python manage.py db migrate
+# to populate with temp data:
+$ docker-compose run web python manage.py create-data
 ```
 
 Access the application at the address [http://localhost:5002/](http://localhost:5002/)
