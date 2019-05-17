@@ -51,8 +51,11 @@ def create_admin():
 @cli.command()
 def create_data():
     event = Event(name="Rochester Fakelocross", bikereg_id="1", active=True)
+    event2 = Event(name="Rochester Fakecrit", bikereg_id="11", active=False)
     db.session.add(event)
+    db.session.add(event2)
     db.session.commit()
+
     race1 = Race(name="Cat 1 Mens", bikereg_id="2", event_id=event.id)
     race2 = Race(name="Cat 2 Mens", bikereg_id="3", event_id=event.id)
     race3 = Race(name="Cat 3 Mens", bikereg_id="4", event_id=event.id)
@@ -66,6 +69,7 @@ def create_data():
     db.session.add(race5)
     db.session.add(race6)
     db.session.commit()
+
     db.session.add(
         Rider(
             name="Big Guy",
