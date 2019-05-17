@@ -50,19 +50,47 @@ def create_admin():
 
 @cli.command()
 def create_data():
-    event = Event(name="Rochester Testocross", bikereg_id="1", active=True)
+    event = Event(name="Rochester Fakelocross", bikereg_id="1", active=True)
     db.session.add(event)
     db.session.commit()
-    race = Race(name="Cat 1 Mens", bikereg_id="2", event_id=event.id)
-    db.session.add(race)
+    race1 = Race(name="Cat 1 Mens", bikereg_id="2", event_id=event.id)
+    race2 = Race(name="Cat 2 Mens", bikereg_id="3", event_id=event.id)
+    race3 = Race(name="Cat 3 Mens", bikereg_id="4", event_id=event.id)
+    race4 = Race(name="Cat 1 Womens", bikereg_id="5", event_id=event.id)
+    race5 = Race(name="Cat 2 Womens", bikereg_id="6", event_id=event.id)
+    race6 = Race(name="Cat 3 Womens", bikereg_id="7", event_id=event.id)
+    db.session.add(race1)
+    db.session.add(race2)
+    db.session.add(race3)
+    db.session.add(race4)
+    db.session.add(race5)
+    db.session.add(race6)
     db.session.commit()
     db.session.add(
         Rider(
-            name="Tough Guy",
+            name="Big Guy",
             email="blah@nope.com",
             usac="123",
             bib="11",
-            race_id=race.id,
+            race_id=race1.id,
+        )
+    )
+    db.session.add(
+        Rider(
+            name="Big Guy",
+            email="blah@nope.com",
+            usac="123",
+            bib="13",
+            race_id=race2.id,
+        )
+    )
+    db.session.add(
+        Rider(
+            name="Another Guy",
+            email="blahr@nope.com",
+            usac="124",
+            bib="12",
+            race_id=race1.id,
         )
     )
     db.session.commit()
