@@ -15,7 +15,7 @@ user_blueprint = Blueprint("user", __name__)
 def login():
     if request.headers["Content-Type"] == "application/json":
         req = request.get_json()
-        user = User.query.filter_by(email=req.get("email")).first()
+        user = User.query.filter_by(email=req.get("username")).first()
         if user and bcrypt.check_password_hash(user.password, req.get("password")):
             login_user(user)
             return jsonify({"user": user.email, "login": "success"})
@@ -39,3 +39,13 @@ def test():
 @login_required
 def get_bikereg_token():
     pass
+
+
+@user_blueprint.after_request
+def after_request(response):
+    header = response.headers
+    header["Access-Control-Allow-Origin"] = "*"
+    response.headers[
+        "Access-Control-Allow-Headers"
+    ] = "Access-Control-Allow-Headers, Content-Type, Authorization"
+    return response
