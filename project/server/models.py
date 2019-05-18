@@ -42,46 +42,6 @@ class User(db.Model):
         return "<User {0}>".format(self.email)
 
 
-class Rider(db.Model):
-
-    __tablename__ = "riders"
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.Text, nullable=False)
-    email = db.Column(db.Text, nullable=False)
-    usac = db.Column(db.Text, nullable=False)
-    bib = db.Column(db.Text, nullable=False)
-    checked_in = db.Column(db.Boolean, nullable=False, default=False)
-    created_on = db.Column(db.DateTime, nullable=False)
-    race_id = db.Column(db.ForeignKey("races.id"))
-
-    def __init__(self, name, email, usac, bib, race_id, checked_in=False):
-        self.name = name
-        self.email = email
-        self.usac = usac
-        self.bib = bib
-        self.checked_in = checked_in
-        self.created_on = datetime.datetime.now()
-        self.race_id = race_id
-
-    def get_id(self):
-        return self.id
-
-    def as_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "email": self.email,
-            "usac": self.usac,
-            "bib": self.bib,
-            "checkedIn": self.checked_in,
-            "raceId": self.race_id,
-        }
-
-    def __repr__(self):
-        return f"<Rider {self.name}>"
-
-
 class Race(db.Model):
 
     __tablename__ = "races"
@@ -111,6 +71,48 @@ class Race(db.Model):
 
     def __repr__(self):
         return f"<Race {self.name}>"
+
+
+class Rider(db.Model):
+
+    __tablename__ = "riders"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.Text, nullable=False)
+    email = db.Column(db.Text, nullable=False)
+    usac = db.Column(db.Text, nullable=False)
+    bib = db.Column(db.Text, nullable=False)
+    checked_in = db.Column(db.Boolean, nullable=False, default=False)
+    created_on = db.Column(db.DateTime, nullable=False)
+    race_id = db.Column(db.ForeignKey("races.id"))
+    race = db.relationship(Race, backref="riders")
+
+    def __init__(self, name, email, usac, bib, race_id, checked_in=False):
+        self.name = name
+        self.email = email
+        self.usac = usac
+        self.bib = bib
+        self.checked_in = checked_in
+        self.created_on = datetime.datetime.now()
+        self.race_id = race_id
+
+    def get_id(self):
+        return self.id
+
+    def as_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "usac": self.usac,
+            "bib": self.bib,
+            "checkedIn": self.checked_in,
+            "raceId": self.race_id,
+            "raceName": self.race.name,
+        }
+
+    def __repr__(self):
+        return f"<Rider {self.name}>"
 
 
 class Event(db.Model):
