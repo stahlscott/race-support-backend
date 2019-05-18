@@ -1,4 +1,4 @@
-# project/server/rider/views.py
+# project/server/rider/controller.py
 
 
 from flask import Blueprint, jsonify, Response, request

@@ -1,4 +1,4 @@
-# project/server/event/views.py
+# project/server/event/controller.py
 
 
 from flask import Blueprint, jsonify

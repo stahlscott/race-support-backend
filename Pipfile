@@ -12,6 +12,7 @@ flask-migrate = "*"
 flask-sqlalchemy = "*"
 flask-wtf = "*"
 psycopg2 = "*"
+requests = "*"
 
 [dev-packages]
 coverage = "*"

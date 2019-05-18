@@ -44,12 +44,13 @@ def drop_db():
 @cli.command()
 def create_admin():
     """Creates the admin user."""
-    db.session.add(User(email="ad@min.com", password="admin", admin=True))
+    db.session.add(User(email="admin", password="fakeadmin", admin=True))
     db.session.commit()
 
 
 @cli.command()
 def create_data():
+    create_admin()
     event = Event(name="Rochester Fakelocross", bikereg_id="1", active=True)
     event2 = Event(name="Rochester Fakecrit", bikereg_id="11", active=False)
     db.session.add(event)

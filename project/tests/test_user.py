@@ -9,7 +9,6 @@ from flask_login import current_user
 from base import BaseTestCase
 from project.server import bcrypt
 from project.server.models import User
-from project.server.user.forms import LoginForm
 
 
 class TestUserBlueprint(BaseTestCase):
@@ -50,16 +49,6 @@ class TestUserBlueprint(BaseTestCase):
         response = self.client.get("/members", follow_redirects=True)
         self.assertIn(b"Please log in to access this page", response.data)
 
-    def test_validate_success_login_form(self):
-        # Ensure correct data validates.
-        form = LoginForm(email="ad@min.com", password="admin_user")
-        self.assertTrue(form.validate())
-
-    def test_validate_invalid_email_format(self):
-        # Ensure invalid email format throws error.
-        form = LoginForm(email="unknown", password="example")
-        self.assertFalse(form.validate())
-
     def test_get_by_id(self):
         # Ensure id is correct for the current/logged in user.
         with self.client:
@@ -84,9 +73,7 @@ class TestUserBlueprint(BaseTestCase):
     def test_check_password(self):
         # Ensure given password is correct after unhashing.
         user = User.query.filter_by(email="ad@min.com").first()
-        self.assertTrue(
-            bcrypt.check_password_hash(user.password, "admin_user")
-        )
+        self.assertTrue(bcrypt.check_password_hash(user.password, "admin_user"))
         self.assertFalse(bcrypt.check_password_hash(user.password, "foobar"))
 
     def test_validate_invalid_password(self):
@@ -110,9 +97,7 @@ class TestUserBlueprint(BaseTestCase):
             response = self.client.post(
                 "/register",
                 data=dict(
-                    email="test@tester.com",
-                    password="testing",
-                    confirm="testing",
+                    email="test@tester.com", password="testing", confirm="testing"
                 ),
                 follow_redirects=True,
             )

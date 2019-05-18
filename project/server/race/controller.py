@@ -1,4 +1,4 @@
-# project/server/race/views.py
+# project/server/race/controller.py
 
 
 from flask import Blueprint, jsonify
