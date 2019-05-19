@@ -157,3 +157,24 @@ class Event(db.Model):
 
     def __repr__(self):
         return f"<Race {self.name}>"
+
+
+class ApiToken(db.Model):
+
+    __tablename__ = "api_token"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    token = db.Column(db.Text, unique=True, nullable=False)
+    promoter_id = db.Column(db.Text, nullable=False)
+    created_on = db.Column(db.DateTime, nullable=False)
+
+    def __init__(self, token, promoter_id):
+        self.token = token
+        self.promoter_id = promoter_id
+        self.created_on = datetime.datetime.now()
+
+    def is_expired(self):
+        return self.created_on + datetime.timedelta(hours=23) < datetime.datetime.now()
+
+    def __repr__(self):
+        return f"<ApiToken {self.token}>"
