@@ -12,7 +12,7 @@ from project.server.models import ApiToken
 
 BASE_URL = "https://www.bikereg.com/api/director"
 
-api_blueprint = Blueprint("api", __name__)
+api_blueprint = Blueprint("api", __name__)  # TODO remove blueprint // temporary
 
 
 def get_api_token():
@@ -31,7 +31,17 @@ def get_api_token():
         return apiToken
 
 
-@api_blueprint.route("/api/events")
+def get_active_token():
+    token = db.session.query(ApiToken).order_by(ApiToken.id.desc()).first()
+    if token is None or token.is_expired():
+        print("fetching new...")
+        token = get_api_token()
+    print(token.token)
+    return token.token
+
+
+# TODO these routes are temporary; eventually will be used as service calls from other controllers
+@api_blueprint.route("/api/events")  # TODO remove route // temporary
 def get_events():
     url = f"{BASE_URL}/PromoterEvents"
     token = get_active_token()
@@ -41,7 +51,7 @@ def get_events():
     return Response()
 
 
-@api_blueprint.route("/api/cats")
+@api_blueprint.route("/api/cats")  # TODO remove route // temporary
 def get_categories():
     url = f"{BASE_URL}/EventCategories"
     token = get_active_token()
@@ -51,7 +61,7 @@ def get_categories():
     return Response()
 
 
-@api_blueprint.route("/api/entries")
+@api_blueprint.route("/api/entries")  # TODO remove route // temporary
 def get_entries():
     url = f"{BASE_URL}/EventEntries"
     token = get_active_token()
@@ -59,12 +69,3 @@ def get_entries():
     resp_json = resp.json()
     print(resp_json)
     return Response()
-
-
-def get_active_token():
-    token = db.session.query(ApiToken).order_by(ApiToken.id.desc()).first()
-    if token is None or token.is_expired():
-        print("fetching new...")
-        token = get_api_token()
-    print(token.token)
-    return token.token
