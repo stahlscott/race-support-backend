@@ -111,6 +111,16 @@ class Rider(db.Model):
             "raceName": self.race.name,
         }
 
+    def as_public_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "email": self.email,
+            "bib": self.bib,
+            "checkedIn": self.checked_in,
+            "raceName": self.race.name,
+        }
+
     def __repr__(self):
         return f"<Rider {self.name}>"
 

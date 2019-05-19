@@ -7,6 +7,7 @@ from flask import Blueprint, jsonify
 
 from project.server import db
 from project.server.models import Event, Race
+from project.server.auth import requires_auth
 
 
 event_blueprint = Blueprint("event", __name__)
@@ -19,6 +20,7 @@ def get_event(id):
 
 
 @event_blueprint.route("/events", methods=["GET"])
+@requires_auth
 def get_all_events():
     events = Event.query.all()
     return jsonify([event.as_dict() for event in events])
@@ -31,16 +33,15 @@ def get_race_by_event(event_id):
 
 
 @event_blueprint.route("/events/<event_id>/active", methods=["GET"])
+@requires_auth
 def set_event_active(event_id):
     events = Event.query.all()
     event_id = int(event_id)
     updated_event = None
-    print([event.as_dict() for event in events])
     for event in events:
         if event.id == event_id:
             event.active = True
             updated_event = event
-            print("hi!")
         else:
             event.active = False
     db.session.commit()

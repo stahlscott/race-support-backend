@@ -6,19 +6,21 @@ from flask import Blueprint, jsonify, Response, request
 # from flask_login import login_user, logout_user, login_required
 
 from project.server import db
+from project.server.auth import requires_auth
 from project.server.models import Rider
-
 
 rider_blueprint = Blueprint("rider", __name__)
 
 
 @rider_blueprint.route("/riders/<id>", methods=["GET"])
+@requires_auth
 def get_rider(id):
     rider = Rider.query.filter_by(id=id).first()
     return jsonify(rider.as_dict())
 
 
 @rider_blueprint.route("/riders", methods=["GET"])
+@requires_auth
 def get_all_riders():
     riders = Rider.query.all()
     # TODO need to populate with race name
@@ -26,6 +28,7 @@ def get_all_riders():
 
 
 @rider_blueprint.route("/riders", methods=["POST"])
+@requires_auth
 def create_rider():
     if request.headers["Content-Type"] == "application/json":
         req = request.get_json()
@@ -46,6 +49,7 @@ def create_rider():
 
 
 @rider_blueprint.route("/riders/<id>", methods=["POST"])
+@requires_auth
 def update_rider(id):
     if request.headers["Content-Type"] == "application/json":
         req = request.get_json()

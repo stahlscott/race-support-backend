@@ -17,7 +17,7 @@ def login():
         req = request.get_json()
         user = User.query.filter_by(email=req.get("username")).first()
         if user and bcrypt.check_password_hash(user.password, req.get("password")):
-            login_user(user)
+            login_user(user, remember=True)
             return jsonify({"user": user.email, "login": "success"})
         else:
             return Response("error", 401)

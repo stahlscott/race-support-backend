@@ -18,6 +18,8 @@ services:
       - DATABASE_URL=postgres://postgres:postgres@race-db:5432/dev
       - DATABASE_TEST_URL=postgres://postgres:postgres@race-db:5432/test
       - SECRET_KEY=change_me_in_prod
+      - USERNAME=race_admin_star
+      - PASSWORD=the_secret_password_to_be_changed_in_prod
     depends_on:
       - race-db
 

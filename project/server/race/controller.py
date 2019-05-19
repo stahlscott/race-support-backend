@@ -24,6 +24,7 @@ def get_all_races():
 @race_blueprint.route("/races/<race_id>/riders", methods=["GET"])
 def get_rider_by_race(race_id):
     riders = Rider.query.filter_by(race_id=race_id).all()
+    # TODO filter this down for public consumption?
     return jsonify([rider.as_dict() for rider in riders])
 
 

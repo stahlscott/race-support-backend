@@ -43,14 +43,12 @@ def create_app(script_info=None):
     migrate.init_app(app, db)
 
     # register blueprints
-    from project.server.api.controller import api_blueprint
     from project.server.rider.controller import rider_blueprint
     from project.server.race.controller import race_blueprint
     from project.server.event.controller import event_blueprint
     from project.server.user.controller import user_blueprint
     from project.server.main.views import main_blueprint
 
-    app.register_blueprint(api_blueprint)
     app.register_blueprint(rider_blueprint)
     app.register_blueprint(race_blueprint)
     app.register_blueprint(event_blueprint)
