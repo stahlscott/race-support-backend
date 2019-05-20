@@ -30,6 +30,7 @@ COV.start()
 
 @cli.command()
 def create_db():
+    """Creates a fresh copy of the database."""
     db.drop_all()
     db.create_all()
     db.session.commit()
@@ -50,7 +51,7 @@ def create_admin():
 
 @cli.command()
 def create_data():
-    create_admin()
+    """Creates a set of sample data for testing."""
     event = Event(name="Rochester Fakelocross", bikereg_id="1", active=True)
     event2 = Event(name="Rochester Fakecrit", bikereg_id="11", active=False)
     db.session.add(event)

@@ -24,6 +24,7 @@ APP_SETTINGS="project.server.config.DevelopmentConfig"
 $ docker-compose run web python manage.py create-db
 $ docker-compose run web python manage.py db migrate
 # to populate with temp data:
+$ docker-compose run web python manage.py create-admin
 $ docker-compose run web python manage.py create-data
 ```
 
@@ -47,4 +48,11 @@ Lint:
 
 ```sh
 $ docker-compose run web flake8 project
+```
+
+Deploy to heroku:
+
+```sh
+$ heroku container:push --recursive --app=race-support-backend
+$ heroku container:release web --app=race-support-backend
 ```
