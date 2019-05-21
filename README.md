@@ -12,10 +12,11 @@ Update the environment variables in _docker-compose.yml_, and then build the ima
 $ docker-compose up -d --build
 ```
 
-By default the app is set to use the production configuration. If you would like to use the development configuration, you can alter the `APP_SETTINGS` environment variable:
+Add the following to your docker-compose.yml:
 
-```
-APP_SETTINGS="project.server.config.DevelopmentConfig"
+```yml
+- API_USERNAME=your_bikereg_username
+- API_PASSWORD=your_bikereg_pw
 ```
 
 ## Create the database:
